@@ -104,10 +104,6 @@ class SchebTwoFactorExtensionTest extends TestCase
 
         //Doctrine
         $this->assertHasDefinition('scheb_two_factor.entity_manager');
-
-        //Listeners
-        $this->assertHasDefinition('scheb_two_factor.security.interactive_login_listener');
-        $this->assertHasDefinition('scheb_two_factor.security.request_listener');
     }
 
     /**

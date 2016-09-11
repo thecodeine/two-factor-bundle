@@ -44,7 +44,6 @@ class SchebTwoFactorExtension extends Extension
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('security.xml');
-        $loader->load('listeners.xml');
         $loader->load('persistence.xml');
 
         // Configure persister service
