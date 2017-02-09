@@ -1,5 +1,5 @@
 {
-    "name": "scheb/two-factor-bundle",
+    "name": "thecodeine/two-factor-bundle",
     "type": "symfony-bundle",
     "description": "Provides two-factor authentication for Symfony applications",
     "keywords": ["two-factor", "two-step", "authentication", "security", "symfony"],
