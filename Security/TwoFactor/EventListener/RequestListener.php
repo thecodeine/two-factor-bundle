@@ -4,6 +4,7 @@ namespace Scheb\TwoFactorBundle\Security\TwoFactor\EventListener;
 
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Scheb\TwoFactorBundle\Security\TwoFactor\AuthenticationHandlerInterface;
 use Scheb\TwoFactorBundle\Security\TwoFactor\AuthenticationContextFactoryInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
