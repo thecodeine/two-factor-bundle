@@ -65,8 +65,9 @@ class TwoFactorProviderRegistry implements AuthenticationHandlerInterface
     {
         /** @var TwoFactorProviderInterface $provider */
         foreach ($this->providers as $providerName => $provider) {
-            if ($provider->beginAuthentication($context)) {
+            if ($provider->isEnabled($context)) {
                 $this->flagManager->setBegin($providerName, $context->getToken());
+                $provider->beginAuthentication($context);
             }
         }
     }

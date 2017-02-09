@@ -42,6 +42,19 @@ class TwoFactorProvider implements TwoFactorProviderInterface
     }
 
     /**
+     * Check if user can do email authentication
+     *
+     * @param AuthenticationContextInterface $context
+     *
+     * @return bool
+     */
+    public function isEnabled(AuthenticationContextInterface $context)
+    {
+        $user = $context->getUser();
+        return $user instanceof TwoFactorInterface && $user->isEmailAuthEnabled();
+    }
+
+    /**
      * Begin email authentication process.
      *
      * @param AuthenticationContextInterface $context
@@ -50,16 +63,7 @@ class TwoFactorProvider implements TwoFactorProviderInterface
      */
     public function beginAuthentication(AuthenticationContextInterface $context)
     {
-        // Check if user can do email authentication
-        $user = $context->getUser();
-        if ($user instanceof TwoFactorInterface && $user->isEmailAuthEnabled()) {
-            // Generate and send a new security code
-            $this->codeGenerator->generateAndSend($user);
-
-            return true;
-        }
-
-        return false;
+        $this->codeGenerator->generateAndSend($context->getUser());
     }
 
     /**

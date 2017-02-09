@@ -18,7 +18,7 @@
 			<argument type="service" id="scheb_two_factor.trusted_filter" />
 			<argument type="service" id="security.token_storage" />
 			<argument>%scheb_two_factor.security_tokens%</argument>
-			<argument>%scheb_two_factor.exclude_pattern%</argument>
+			<argument>%scheb_two_factor.access_control%</argument>
 		</service>
 	</services>
 </container>
