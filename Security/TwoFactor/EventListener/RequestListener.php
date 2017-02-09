@@ -31,9 +31,9 @@ class RequestListener
     private $supportedTokens;
 
     /**
-     * @var string
+     * @var array
      */
-    private $excludePattern;
+    private $accessControl;
 
     /**
      * Construct a listener for login events.
@@ -42,20 +42,20 @@ class RequestListener
      * @param AuthenticationHandlerInterface        $authHandler
      * @param TokenStorageInterface                 $tokenStorage
      * @param array                                 $supportedTokens
-     * @param string                                $excludePattern
+     * @param array                                 $accessControl
      */
     public function __construct(
         AuthenticationContextFactoryInterface $authenticationContextFactory,
         AuthenticationHandlerInterface $authHandler,
         TokenStorageInterface $tokenStorage,
         array $supportedTokens,
-        $excludePattern
+        $accessControl
     ) {
         $this->authenticationContextFactory = $authenticationContextFactory;
         $this->authHandler = $authHandler;
         $this->tokenStorage = $tokenStorage;
         $this->supportedTokens = $supportedTokens;
-        $this->excludePattern = $excludePattern;
+        $this->accessControl = $accessControl;
     }
 
     /**
@@ -67,10 +67,8 @@ class RequestListener
     {
         $request = $event->getRequest();
 
-        // Exclude path
-        if ($this->excludePattern !== null && preg_match('#'.$this->excludePattern.'#', $request->getPathInfo())) {
-            return;
-        }
+        // Check access control
+        if (!$this->isSecuredPath($request)) return;
 
         // Check if security token is supported
         $token = $this->tokenStorage->getToken();
@@ -105,5 +103,24 @@ class RequestListener
         $class = get_class($token);
 
         return in_array($class, $this->supportedTokens);
+    }
+
+    /**
+     * Check if current path is secured by two-factor authentication
+     *
+     * @param Request $request
+     *
+     * @return bool
+     */
+    private function isSecuredPath(Request $request) {
+        foreach($this->accessControl as $access) {
+            $path = $access['path'];
+
+            if (null !== $path && preg_match('{'.$path.'}', rawurldecode($request->getPathInfo()))) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
