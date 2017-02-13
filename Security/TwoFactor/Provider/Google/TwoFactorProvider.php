@@ -35,19 +35,28 @@ class TwoFactorProvider implements TwoFactorProviderInterface
     }
 
     /**
+     * Check if user can do google authentication
+     *
+     * @param AuthenticationContextInterface $context
+     *
+     * @return bool
+     */
+    public function isEnabled(AuthenticationContextInterface $context)
+    {
+        // Check if user can do google authentication
+        $user = $context->getUser();
+
+        return $user instanceof TwoFactorInterface && $user->getGoogleAuthenticatorSecret();
+    }
+
+    /**
      * Begin Google authentication process.
      *
      * @param AuthenticationContextInterface $context
      *
      * @return bool
      */
-    public function beginAuthentication(AuthenticationContextInterface $context)
-    {
-        // Check if user can do email authentication
-        $user = $context->getUser();
-
-        return $user instanceof TwoFactorInterface && $user->getGoogleAuthenticatorSecret();
-    }
+    public function beginAuthentication(AuthenticationContextInterface $context) {}
 
     /**
      * Ask for Google authentication code.
