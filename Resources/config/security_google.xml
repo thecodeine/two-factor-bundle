@@ -6,6 +6,7 @@
 		<parameter key="scheb_two_factor.security.google.provider.class">Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Google\TwoFactorProvider</parameter>
 		<parameter key="scheb_two_factor.security.google.google_code_validator.class">Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Google\Validation\GoogleCodeValidator</parameter>
 		<parameter key="scheb_two_factor.security.google.backup_code_validator.class">Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Google\Validation\BackupCodeValidator</parameter>
+		<parameter key="scheb_two_factor.twig.twig_extension">Scheb\TwoFactorBundle\Twig\TwigExtension</parameter>
 	</parameters>
 	<services>
 		<service id="scheb_two_factor.security.google" class="%scheb_two_factor.security.google.class%" />
@@ -32,5 +33,9 @@
             <argument type="service" id="templating" />
             <argument>%scheb_two_factor.google.template%</argument>
         </service>
+		<service id="scheb_two_factor.twig_extension" class="%scheb_two_factor.twig.twig_extension%" public="false">
+			<tag name="twig.extension"/>
+			<argument type="service" id="scheb_two_factor.security.google_authenticator"/>
+		</service>
 	</services>
 </container>
